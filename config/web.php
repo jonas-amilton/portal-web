@@ -10,8 +10,10 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
-        '@web'   => '/',
-        '@images' => '@web/images',
+        '@web' => '/',
+        '@showImages' => '@web/images',
+        '@webroot' => dirname(__DIR__) . '/web',
+        '@uploadImages' => '@webroot/images',
     ],
     'components' => [
         'request' => [
