@@ -10,7 +10,9 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Pais;
+use app\models\UploadForm;
 use app\models\Users;
+use yii\web\UploadedFile;
 use yii\data\Pagination;
 
 class SiteController extends Controller
@@ -68,23 +70,20 @@ class SiteController extends Controller
             return $this->redirect(['site/login']);
         }
 
-        $query = Pais::find();
+        $modelUploadForm = new UploadForm();
 
-        $paginacao = new Pagination([
-            'defaultPageSize' => 5,
-            'totalCount' => $query->count(),
-        ]);
+        if (Yii::$app->request->isPost) {
+            $modelUploadForm->imageFile = UploadedFile::getInstance($modelUploadForm, 'imageFile');
+            if ($modelUploadForm->upload()) {
+                // file is uploaded successfully
+                Yii::$app->session->setFlash('success', 'Imagem enviada com sucesso!');
 
-        $paises = $query->orderBy('nome')
-            ->offset($paginacao->offset)
-            ->limit($paginacao->limit)
-            ->all();
+                return $this->redirect(['site/index']);
+            }
+        }
 
         return $this->render('index', [
-            'todosPaises' => Pais::getPaises(),
-            'paisBrasil' => Pais::getPaisBrasil(),
-            'paises' => $paises,
-            'paginacao' => $paginacao,
+            'modelUploadForm' => $modelUploadForm
         ]);
     }
 

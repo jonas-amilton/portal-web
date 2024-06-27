@@ -3,12 +3,25 @@
 /** @var yii\web\View $this */
 
 $this->title = 'Comunidade Conectada';
+
+use yii\widgets\ActiveForm;
 ?>
 
 <div class="container mb-2">
     <h1>
         Olá, <?= Yii::$app->user->identity->username; ?> qual a novidade de hoje?
     </h1>
+    <div class="input-group">
+        <span class="input-group-text">Criar nova publicação</span>
+        <textarea class="form-control" aria-label="Criar nova publicação"></textarea>
+    </div>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+
+    <?= $form->field($modelUploadForm, 'imageFile')->fileInput() ?>
+
+    <button>Submit</button>
+
+    <?php ActiveForm::end() ?>
     <div class="input-group input-group-lg">
         <span class="input-group-text" id="inputGroup-sizing-lg">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
@@ -26,7 +39,7 @@ $this->title = 'Comunidade Conectada';
     <div class="row">
         <div class="col-4">
             <div class="card">
-                <img src="<?= Yii::getAlias('@images') . '/01.jpg'; ?>" class="card-img-top" alt="...">
+                <img src="<?= Yii::getAlias('@showImages') . '/01.jpg'; ?>" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
@@ -37,7 +50,7 @@ $this->title = 'Comunidade Conectada';
         </div>
         <div class="col-4">
             <div class="card">
-                <img src="<?= Yii::getAlias('@images') . '/02.jpg'; ?>" class="card-img-top" alt="...">
+                <img src="<?= Yii::getAlias('@showImages') . '/02.jpg'; ?>" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
@@ -48,7 +61,7 @@ $this->title = 'Comunidade Conectada';
         </div>
         <div class="col-4">
             <div class="card">
-                <img src="<?= Yii::getAlias('@images') . '/03.jpg'; ?>" class="card-img-top" alt="...">
+                <img src="<?= Yii::getAlias('@showImages') . '/03.jpg'; ?>" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
@@ -61,7 +74,7 @@ $this->title = 'Comunidade Conectada';
     <div class="row">
         <div class="col-4">
             <div class="card">
-                <img src="<?= Yii::getAlias('@images') . '/04.jpg'; ?>" class="card-img-top" alt="...">
+                <img src="<?= Yii::getAlias('@showImages') . '/04.jpg'; ?>" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
@@ -72,7 +85,7 @@ $this->title = 'Comunidade Conectada';
         </div>
         <div class="col-4">
             <div class="card">
-                <img src="<?= Yii::getAlias('@images') . '/05.jpg'; ?>" class="card-img-top" alt="...">
+                <img src="<?= Yii::getAlias('@showImages') . '/05.jpg'; ?>" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
@@ -83,7 +96,7 @@ $this->title = 'Comunidade Conectada';
         </div>
         <div class="col-4">
             <div class="card">
-                <img src="<?= Yii::getAlias('@images') . '/06.jpg'; ?>" class="card-img-top" alt="...">
+                <img src="<?= Yii::getAlias('@showImages') . '/06.jpg'; ?>" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
@@ -94,7 +107,7 @@ $this->title = 'Comunidade Conectada';
         </div>
         <div class="col-4">
             <div class="card">
-                <img src="<?= Yii::getAlias('@images') . '/07.jpg'; ?>" class="card-img-top" alt="...">
+                <img src="<?= Yii::getAlias('@showImages') . '/07.jpg'; ?>" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
@@ -105,7 +118,7 @@ $this->title = 'Comunidade Conectada';
         </div>
         <div class="col-4">
             <div class="card">
-                <img src="<?= Yii::getAlias('@images') . '/08.jpg'; ?>" class="card-img-top" alt="...">
+                <img src="<?= Yii::getAlias('@showImages') . '/08.jpg'; ?>" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
@@ -116,7 +129,7 @@ $this->title = 'Comunidade Conectada';
         </div>
         <div class="col-4">
             <div class="card">
-                <img src="<?= Yii::getAlias('@images') . '/09.jpg'; ?>" class="card-img-top" alt="...">
+                <img src="<?= Yii::getAlias('@showImages') . '/09.jpg'; ?>" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
