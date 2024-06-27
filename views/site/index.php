@@ -4,9 +4,19 @@
 
 $this->title = 'My Yii Application';
 
-var_dump($paises);
+var_dump(Yii::$app->user);
 echo '<hr>';
-var_dump($paisBrasil);
+if (Yii::$app->user->identity) {
+    var_dump(Yii::$app->user->identity->username);
+    echo '<hr>';
+    var_dump(Yii::$app->user->identity->password);
+    echo '<hr>';
+    var_dump(Yii::$app->user->identityClass);
+}
+
+// var_dump($paises);
+// echo '<hr>';
+// var_dump($paisBrasil);
 ?>
 <div class="site-index">
 

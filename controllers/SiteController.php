@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Pais;
+use app\models\Users;
 use yii\data\Pagination;
 
 class SiteController extends Controller
@@ -103,6 +104,19 @@ class SiteController extends Controller
         $model->password = '';
         return $this->render('login', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionRegister()
+    {
+        $model = new Users();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['site/login']);
+        }
+
+        return $this->render('register', [
+            'model' => $model
         ]);
     }
 
