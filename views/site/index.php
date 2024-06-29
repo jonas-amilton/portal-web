@@ -5,23 +5,10 @@
 $this->title = 'Comunidade Conectada';
 
 use yii\widgets\ActiveForm;
+use yii\helpers\Html;
 ?>
 
 <div class="container mb-2">
-    <h1>
-        Olá, <?= Yii::$app->user->identity->username; ?> qual a novidade de hoje?
-    </h1>
-    <div class="input-group">
-        <span class="input-group-text">Criar nova publicação</span>
-        <textarea class="form-control" aria-label="Criar nova publicação"></textarea>
-    </div>
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
-
-    <?= $form->field($modelUploadForm, 'imageFile')->fileInput() ?>
-
-    <button>Submit</button>
-
-    <?php ActiveForm::end() ?>
     <div class="input-group input-group-lg">
         <span class="input-group-text" id="inputGroup-sizing-lg">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
@@ -33,6 +20,24 @@ use yii\widgets\ActiveForm;
         <input type="text" placeholder="Pesquisar por publicações..." class="form-control"
             aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
     </div>
+
+    <h1>
+        Olá, <?= Yii::$app->user->identity->username; ?> qual a novidade de hoje?
+    </h1>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+
+    <?= $form->field($modelPost, 'title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($modelPost, 'content')->textarea(['rows' => 6]) ?>
+    <?= $form->field($modelUploadForm, 'imageFile')->fileInput() ?>
+
+    <div class="form-group">
+        <?= Html::submitButton('Submit', ['class' => 'btn btn-success']) ?>
+    </div>
+
+    <?php ActiveForm::end() ?>
+
+</div>
+
 </div>
 
 <div class="container">

@@ -29,7 +29,7 @@ class Posts extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'title', 'publication_date'], 'required'],
+            [['user_id', 'title'], 'required'],
             [['user_id'], 'integer'],
             [['content'], 'string'],
             [['publication_date'], 'safe'],
@@ -45,9 +45,23 @@ class Posts extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'User ID'),
-            'title' => Yii::t('app', 'Title'),
-            'content' => Yii::t('app', 'Content'),
+            'title' => Yii::t('app', 'Titulo'),
+            'content' => Yii::t('app', 'Publicação'),
             'publication_date' => Yii::t('app', 'Publication Date'),
         ];
+    }
+
+    /**
+     * Override the save method to set default values
+     */
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($insert) {
+                $this->publication_date = date('Y-m-d H:i:s');
+            }
+            return true;
+        }
+        return false;
     }
 }

@@ -10,6 +10,8 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Pais;
+use app\models\PostFiles;
+use app\models\Posts;
 use app\models\UploadForm;
 use app\models\Users;
 use yii\web\UploadedFile;
@@ -70,22 +72,48 @@ class SiteController extends Controller
             return $this->redirect(['site/login']);
         }
 
-        $modelUploadForm = new UploadForm();
+        try {
+            $modelUploadForm = new UploadForm();
+            $modelPost = new Posts();
 
-        if (Yii::$app->request->isPost) {
-            $modelUploadForm->imageFile = UploadedFile::getInstance($modelUploadForm, 'imageFile');
-            if ($modelUploadForm->upload()) {
-                // file is uploaded successfully
-                Yii::$app->session->setFlash('success', 'Imagem enviada com sucesso!');
+            if (Yii::$app->request->isPost) {
+                $modelPost->load(Yii::$app->request->post());
+                $modelUploadForm->imageFile = UploadedFile::getInstance($modelUploadForm, 'imageFile');
 
-                return $this->redirect(['site/index']);
+                // Validação e salvamento do arquivo
+                if ($modelUploadForm->upload()) {
+                    $modelPost->publication_date = date('Y-m-d H:i:s');
+                    $modelPost->user_id = Yii::$app->user->identity->id;
+
+                    if ($modelPost->validate() && $modelPost->save()) {
+                        // Salvamento do arquivo relacionado
+                        $postFile = new PostFiles();
+                        $postFile->post_id = $modelPost->id;
+                        $postFile->filename = $modelUploadForm->imageFile->baseName . '.' . $modelUploadForm->imageFile->extension;
+                        $postFile->extensao = $modelUploadForm->imageFile->extension;
+                        $postFile->publication_date = date('Y-m-d H:i:s');
+
+                        if ($postFile->save()) {
+                            Yii::$app->session->setFlash('success', 'Publicação e arquivo criados com sucesso.');
+                        } else {
+                            Yii::$app->session->setFlash('error', 'Erro ao salvar informações do arquivo.');
+                        }
+
+                        return $this->redirect(['site/index']);
+                    }
+                }
             }
-        }
 
-        return $this->render('index', [
-            'modelUploadForm' => $modelUploadForm
-        ]);
+            return $this->render('index', [
+                'modelUploadForm' => $modelUploadForm,
+                'modelPost' => $modelPost
+            ]);
+        } catch (\Throwable $e) {
+            echo "Erro" . $e->getMessage();
+            return false;
+        }
     }
+
 
     /**
      * Login action.

@@ -45,9 +45,9 @@ class PostFiles extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'post_id' => Yii::t('app', 'Post ID'),
-            'filename' => Yii::t('app', 'Filename'),
-            'extensao' => Yii::t('app', 'Extensao'),
-            'publication_date' => Yii::t('app', 'Publication Date'),
+            'filename' => Yii::t('app', 'Nome do arquivo'),
+            'extensao' => Yii::t('app', 'Extensão'),
+            'publication_date' => Yii::t('app', 'Data de Publicação'),
         ];
     }
 }

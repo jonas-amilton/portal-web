@@ -20,6 +20,16 @@ class UploadForm extends Model
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'imageFile' => Yii::t('app', 'Inserir imagem'),
+        ];
+    }
+
     public function upload()
     {
         if ($this->validate()) {
