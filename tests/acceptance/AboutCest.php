@@ -2,11 +2,11 @@
 
 use yii\helpers\Url;
 
-class AboutCest
+class SuporteCest
 {
-    public function ensureThatAboutWorks(AcceptanceTester $I)
+    public function ensureThatSuporteWorks(AcceptanceTester $I)
     {
-        $I->amOnPage(Url::toRoute('/site/about'));
-        $I->see('About', 'h1');
+        $I->amOnPage(Url::toRoute('/site/suporte'));
+        $I->see('Suporte', 'h1');
     }
 }
