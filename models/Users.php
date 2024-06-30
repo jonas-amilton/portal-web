@@ -101,4 +101,15 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
         }
         return false;
     }
+
+    /**
+     * Retorna o nome do usuário pelo ID
+     * @param int $userId ID do usuário
+     * @return string|null Nome do usuário ou null se não encontrado
+     */
+    public static function getUsernameById($userId)
+    {
+        $user = self::findOne($userId);
+        return $user ? $user->username : null;
+    }
 }

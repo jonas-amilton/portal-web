@@ -50,4 +50,12 @@ class PostFiles extends \yii\db\ActiveRecord
             'publication_date' => Yii::t('app', 'Data de Publicação'),
         ];
     }
+
+    /**
+     * Define the relationship with the Posts model
+     */
+    public function getPost()
+    {
+        return $this->hasOne(Posts::class, ['id' => 'post_id']);
+    }
 }

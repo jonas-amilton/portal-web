@@ -12,6 +12,8 @@ use Yii;
  * @property string $title
  * @property string|null $content
  * @property string $publication_date
+ * 
+ * @property Users $users
  */
 class Posts extends \yii\db\ActiveRecord
 {
@@ -63,5 +65,22 @@ class Posts extends \yii\db\ActiveRecord
             return true;
         }
         return false;
+    }
+
+    /**
+     * Define the relationship with the PostFiles model
+     */
+    public function getPostFiles()
+    {
+        return $this->hasMany(PostFiles::class, ['post_id' => 'id']);
+    }
+
+    /**
+     * Gets the user who created the post.
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(Users::class, ['id' => 'user_id']);
     }
 }
