@@ -39,4 +39,12 @@ class UploadForm extends Model
             return false;
         }
     }
+
+    public static function delete($file)
+    {
+        $filePath = Yii::getAlias('@uploadImages/') . $file;
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+    }
 }

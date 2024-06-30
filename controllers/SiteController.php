@@ -15,7 +15,8 @@ use app\models\Posts;
 use app\models\UploadForm;
 use app\models\Users;
 use yii\web\UploadedFile;
-use yii\data\Pagination;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 
 class SiteController extends Controller
 {
@@ -104,15 +105,60 @@ class SiteController extends Controller
                 }
             }
 
+            $posts = Posts::find()->with('postFiles')->all();
+
             return $this->render('index', [
                 'modelUploadForm' => $modelUploadForm,
-                'modelPost' => $modelPost
+                'modelPost' => $modelPost,
+                'posts' => $posts
             ]);
         } catch (\Throwable $e) {
             echo "Erro" . $e->getMessage();
             return false;
         }
     }
+
+    public function actionDelete($id, $filename)
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+
+        $posts = Posts::findOne($id); // Carrega o post pelo ID
+        $postFiles = PostFiles::findOne($id);
+
+        if (!$posts) {
+            throw new NotFoundHttpException('O post não foi encontrado.');
+        }
+
+        if (!$postFiles) {
+            throw new NotFoundHttpException('O arquivo não foi encontrado.');
+        }
+
+        // Verifica se o usuário tem permissão para excluir o post
+        // Permiti apenas que o autor do post o exclua
+        if ($posts->user_id !== Yii::$app->user->id) {
+            throw new ForbiddenHttpException('Você não tem permissão para excluir este post.');
+        }
+
+        if ($posts->id !== $postFiles->post_id) {
+            throw new ForbiddenHttpException('Arquivo não está vinculado ao post.');
+        }
+
+        // Apaga o post no banco de dados
+        $posts->delete();
+
+        // Apaga os dados do arquivo no banco de dados
+        $postFiles->delete();
+
+        // Apaga o arquivo
+        UploadForm::delete($filename);
+
+        Yii::$app->session->setFlash('success', 'O post foi excluído com sucesso.');
+
+        return $this->redirect(['site/index']);
+    }
+
 
 
     /**
