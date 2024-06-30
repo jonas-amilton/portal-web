@@ -12,6 +12,7 @@ use app\models\ContactForm;
 use app\models\Pais;
 use app\models\PostFiles;
 use app\models\Posts;
+use app\models\SupportMessages;
 use app\models\UploadForm;
 use app\models\Users;
 use yii\web\UploadedFile;
@@ -231,16 +232,54 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays about page.
+     * Displays suporte page.
      *
      * @return string
      */
-    public function actionAbout()
+    public function actionSuporte()
     {
         if (Yii::$app->user->isGuest) {
             return $this->redirect(['site/login']);
         }
 
-        return $this->render('about');
+        $modelSuporte = new SupportMessages();
+
+        if ($modelSuporte->load(Yii::$app->request->post())) {
+            $modelSuporte->user_id = Yii::$app->user->id;
+            if ($modelSuporte->save()) {
+                Yii::$app->session->setFlash('success', 'Mensagem enviada com sucesso.');
+                return $this->redirect(['suporte']);
+            }
+        }
+
+        return $this->render('suporte', [
+            'modelSuporte' => $modelSuporte,
+            'messages' => SupportMessages::find()->all()
+        ]);
+    }
+
+    // Ação para atualizar o status
+    public function actionUpdateStatus($id)
+    {
+        $modelSuporte = $this->findModel($id);
+
+        if ($modelSuporte->load(Yii::$app->request->post()) && $modelSuporte->save()) {
+            Yii::$app->session->setFlash('success', 'Status atualizado com sucesso.');
+            return $this->redirect(['suporte']);
+        }
+
+        return $this->render('update-status', [
+            'modelSuporte' => $modelSuporte,
+        ]);
+    }
+
+    // Método para encontrar o modelo pelo ID
+    protected function findModel($id)
+    {
+        if (($modelSuporte = SupportMessages::findOne($id)) !== null) {
+            return $modelSuporte;
+        }
+
+        throw new NotFoundHttpException('A página solicitada não existe.');
     }
 }
