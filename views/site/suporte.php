@@ -46,18 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <td><?= Html::encode($message->message) ?></td>
             <td><?= Html::encode($message->created_at) ?></td>
             <td><?= Html::encode($message->status) ?></td>
-            <td>
-                <?= Html::a(
-                        'Alterar Status',
-                        [
-                            'site/update-status',
-                            'id' => $message->id
-                        ],
-                        [
-                            'class' => 'btn btn-primary'
-                        ]
-                    ) ?>
-            </td>
         </tr>
         <?php endforeach; ?>
     </tbody>
