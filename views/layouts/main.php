@@ -48,7 +48,7 @@ Yii::$app->name = 'Comunidade Conectada';
             'items' => [
                 ['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'Suporte', 'url' => ['/site/suporte']],
-                ['label' => 'Contact', 'url' => ['/site/contact']],
+                ['label' => 'Painel Administrativo', 'url' => ['/site/painel-administrativo']],
                 Yii::$app->user->isGuest
                     ? ['label' => 'Login', 'url' => ['/site/login']]
                     : '<li class="nav-item">'
@@ -68,7 +68,7 @@ Yii::$app->name = 'Comunidade Conectada';
     <main id="main" class="flex-shrink-0" role="main">
         <div class="container">
             <?php if (!empty($this->params['breadcrumbs'])) : ?>
-            <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
+                <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
             <?php endif ?>
             <?= Alert::widget() ?>
             <?= $content ?>

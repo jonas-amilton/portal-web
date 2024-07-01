@@ -8,7 +8,6 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
 use app\models\Pais;
 use app\models\PostFiles;
 use app\models\Posts;
@@ -216,25 +215,17 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays contact page.
+     * Displays Painel Administrativo page.
      *
      * @return Response|string
      */
-    public function actionContact()
+    public function actionPainelAdministrativo()
     {
         if (Yii::$app->user->isGuest) {
             return $this->redirect(['site/login']);
         }
 
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
+        return $this->render('painel-administrativo');
     }
 
     /**
