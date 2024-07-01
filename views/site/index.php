@@ -4,7 +4,6 @@
 
 $this->title = 'Comunidade Conectada';
 
-use app\models\Users;
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\ListView;
@@ -33,7 +32,7 @@ use yii\widgets\ListView;
         <h1>Feed</h1>
 
         <?php if (!empty($searchModel->attributes)) : ?>
-        <?= ListView::widget([
+            <?= ListView::widget([
                 'dataProvider' => $dataProvider,
                 'itemView' => '_postItem',
             ]); ?>
