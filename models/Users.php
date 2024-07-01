@@ -32,6 +32,8 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
         return [
             [['username', 'password'], 'string', 'max' => 255],
             [['authKey', 'accessToken'], 'string', 'max' => 50],
+            [['isAdmin'], 'boolean'],
+            [['isAdmin'], 'default', 'value' => 0]
         ];
     }
 
@@ -46,6 +48,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             'password' => Yii::t('app', 'Password'),
             'authKey' => Yii::t('app', 'Auth Key'),
             'accessToken' => Yii::t('app', 'Access Token'),
+            'isAdmin' => Yii::t('app', 'Is Admin'),
         ];
     }
 
@@ -111,5 +114,16 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     {
         $user = self::findOne($userId);
         return $user ? $user->username : null;
+    }
+
+    /**
+     * Retorna o administrador pelo ID
+     * @param int $userId ID do usuário
+     * @return string|null Administrador ou null se não encontrado
+     */
+    public static function isAdmin($userId)
+    {
+        $user = self::findOne($userId);
+        return $user && $user->isAdmin;
     }
 }
