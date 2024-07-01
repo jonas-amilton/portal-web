@@ -12,6 +12,7 @@ use app\models\ContactForm;
 use app\models\Pais;
 use app\models\PostFiles;
 use app\models\Posts;
+use app\models\PostSearch;
 use app\models\SupportMessages;
 use app\models\UploadForm;
 use app\models\Users;
@@ -108,10 +109,15 @@ class SiteController extends Controller
 
             $posts = Posts::find()->with('postFiles')->all();
 
+            $searchModel = new PostSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
             return $this->render('index', [
                 'modelUploadForm' => $modelUploadForm,
                 'modelPost' => $modelPost,
-                'posts' => $posts
+                'posts' => $posts,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
             ]);
         } catch (\Throwable $e) {
             echo "Erro" . $e->getMessage();
