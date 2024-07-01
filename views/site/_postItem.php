@@ -10,7 +10,8 @@ use yii\helpers\Html;
     <div class="row g-0">
         <div class="col-md-4">
             <?php foreach ($model->postFiles as $file) : ?>
-                <img src="<?= Yii::getAlias('@showImages/') . $file->filename; ?>" class="img-fluid rounded-start" alt="<?= 'Imagem de ' . $model->title; ?>">
+            <img src="<?= Yii::getAlias('@showImages/') . $file->filename; ?>" class="img-fluid rounded-start"
+                alt="<?= 'Imagem de ' . $model->title; ?>">
             <?php endforeach; ?>
         </div>
         <div class="col-md-8">
@@ -20,17 +21,19 @@ use yii\helpers\Html;
                 <p class="card-text"><strong>Autor:</strong> <?= Html::encode($model->user->username) ?></p>
                 <p class="card-text"><small class="text-body-secondary">Publicado em
                         <?= Html::encode($model->publication_date) ?></small></p>
+                <?php if (Yii::$app->user->identity->id === $model->user_id) : ?>
                 <?= Html::a('Apagar Publicação', [
-                    'site/delete',
-                    'id' => $model->id,
-                    'filename' => $file->filename,
-                ], [
-                    'class' => 'btn btn-danger',
-                    'data' => [
-                        'confirm' => 'Tem certeza que deseja excluir este post?',
-                        'method' => 'post',
-                    ],
-                ]) ?>
+                        'site/delete',
+                        'id' => $model->id,
+                        'filename' => $file->filename,
+                    ], [
+                        'class' => 'btn btn-danger',
+                        'data' => [
+                            'confirm' => 'Tem certeza que deseja excluir este post?',
+                            'method' => 'post',
+                        ],
+                    ]) ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
