@@ -4,6 +4,7 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\models\Users;
 use app\widgets\Alert;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
@@ -43,32 +44,42 @@ Yii::$app->name = 'Comunidade Conectada';
                 'style' => "background-color: #000B70;"
             ],
         ]);
+
+        $items = [
+            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Suporte', 'url' => ['/site/suporte']],
+        ];
+
+        if (!Yii::$app->user->isGuest && Users::isAdmin(Yii::$app->user->id)) {
+            $items[] = ['label' => 'Painel Administrativo', 'url' => ['/site/painel-administrativo']];
+        }
+
+        $items[] = Yii::$app->user->isGuest
+            ? ['label' => 'Login', 'url' => ['/site/login']]
+            : '<li class="nav-item">'
+            . Html::beginForm(['/site/logout'])
+            . Html::submitButton(
+                'Logout (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'nav-link btn btn-link logout']
+            )
+            . Html::endForm()
+            . '</li>';
+
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav'],
-            'items' => [
-                ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'Suporte', 'url' => ['/site/suporte']],
-                ['label' => 'Painel Administrativo', 'url' => ['/site/painel-administrativo']],
-                Yii::$app->user->isGuest
-                    ? ['label' => 'Login', 'url' => ['/site/login']]
-                    : '<li class="nav-item">'
-                    . Html::beginForm(['/site/logout'])
-                    . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->username . ')',
-                        ['class' => 'nav-link btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>'
-            ]
+            'items' => $items,
         ]);
+
         NavBar::end();
         ?>
     </header>
 
+
+
     <main id="main" class="flex-shrink-0" role="main">
         <div class="container">
             <?php if (!empty($this->params['breadcrumbs'])) : ?>
-                <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
+            <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
             <?php endif ?>
             <?= Alert::widget() ?>
             <?= $content ?>

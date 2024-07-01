@@ -225,8 +225,25 @@ class SiteController extends Controller
             return $this->redirect(['site/login']);
         }
 
-        return $this->render('painel-administrativo');
+        if (Users::isAdmin(Yii::$app->user->id)) {
+
+            $messages = SupportMessages::find()->all();
+            if (empty($messages)) {
+                Yii::debug('Nenhuma mensagem de suporte encontrada.');
+            } else {
+                Yii::debug('Mensagens de suporte encontradas: ' . count($messages));
+            }
+
+            return $this->render('painel-administrativo', [
+                'messages' => $messages
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar esta página.');
+            Yii::debug('Usuário não é administrador. Redirecionando para a página inicial.');
+            return $this->redirect(['site/index']);
+        }
     }
+
 
     /**
      * Displays suporte page.
@@ -262,7 +279,7 @@ class SiteController extends Controller
 
         if ($modelSuporte->load(Yii::$app->request->post()) && $modelSuporte->save()) {
             Yii::$app->session->setFlash('success', 'Status atualizado com sucesso.');
-            return $this->redirect(['suporte']);
+            return $this->redirect(['painel-administrativo']);
         }
 
         return $this->render('update-status', [
