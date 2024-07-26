@@ -8,7 +8,6 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\Pais;
 use app\models\PostFiles;
 use app\models\Posts;
 use app\models\PostSearch;
