@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\repositories\UserRepository;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -20,6 +21,21 @@ use yii\web\NotFoundHttpException;
 
 class SiteController extends Controller
 {
+
+    private $userRepository;
+    protected $isAdmin;
+
+    public function __construct($id, $module, UserRepository $userRepository, $config = [])
+    {
+        $this->userRepository = $userRepository;
+        // Armazena globalmente se usuário logado é admin.
+        Yii::$app->params['isAdmin'] = $this->userRepository->isAdmin(Yii::$app->user->id);
+        // Seta no atributo o resultado do método isAdmin.
+        $this->isAdmin = Yii::$app->params['isAdmin'];
+
+        parent::__construct($id, $module, $config);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -224,23 +240,20 @@ class SiteController extends Controller
             return $this->redirect(['site/login']);
         }
 
-        if (Users::isAdmin(Yii::$app->user->id)) {
 
-            $messages = SupportMessages::find()->all();
-            if (empty($messages)) {
-                Yii::debug('Nenhuma mensagem de suporte encontrada.');
-            } else {
-                Yii::debug('Mensagens de suporte encontradas: ' . count($messages));
-            }
-
-            return $this->render('painel-administrativo', [
-                'messages' => $messages
-            ]);
-        } else {
+        if (!($this->isAdmin)) {
             Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar esta página.');
             Yii::debug('Usuário não é administrador. Redirecionando para a página inicial.');
             return $this->redirect(['site/index']);
         }
+
+        $messages = SupportMessages::find()->all();
+        $userIds = array_map(fn($message) => $message->user_id, $messages);
+
+        return $this->render('painel-administrativo', [
+            'messages' => $messages,
+            'users' => $this->userRepository->getUsersByIds($userIds)
+        ]);
     }
 
 
@@ -265,9 +278,13 @@ class SiteController extends Controller
             }
         }
 
+        $messages = SupportMessages::find()->all();
+        $userIds = array_map(fn($message) => $message->user_id, $messages);
+
         return $this->render('suporte', [
             'modelSuporte' => $modelSuporte,
-            'messages' => SupportMessages::find()->all()
+            'messages' => $messages,
+            'users' => $this->userRepository->getUsersByIds($userIds)
         ]);
     }
 

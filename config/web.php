@@ -9,7 +9,7 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
         '@web' => '/',
         '@showImages' => '@web/images',
         '@webroot' => dirname(__DIR__) . '/web',
@@ -54,6 +54,11 @@ $config = [
             ],
         ],
         */
+    ],
+    'container' => [
+        'definitions' => [
+            'app\repositories\interfaces\UserRepositoryInterface' => 'app\repositories\UserRepository',
+        ],
     ],
     'params' => $params,
 ];

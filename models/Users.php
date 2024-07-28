@@ -13,6 +13,7 @@ use yii\web\IdentityInterface;
  * @property string|null $password
  * @property string|null $authKey
  * @property string|null $accessToken
+ * @property boolean $isAdmin
  */
 class Users extends \yii\db\ActiveRecord implements IdentityInterface
 {
@@ -97,33 +98,11 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     {
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
-                $this->authKey = \Yii::$app->security->generateRandomString();
+                $this->authKey = Yii::$app->security->generateRandomString();
                 $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
             }
             return true;
         }
         return false;
-    }
-
-    /**
-     * Retorna o nome do usuário pelo ID
-     * @param int $userId ID do usuário
-     * @return string|null Nome do usuário ou null se não encontrado
-     */
-    public static function getUsernameById($userId)
-    {
-        $user = self::findOne($userId);
-        return $user ? $user->username : null;
-    }
-
-    /**
-     * Retorna o administrador pelo ID
-     * @param int $userId ID do usuário
-     * @return string|null Administrador ou null se não encontrado
-     */
-    public static function isAdmin($userId)
-    {
-        $user = self::findOne($userId);
-        return $user && $user->isAdmin;
     }
 }
