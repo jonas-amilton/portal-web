@@ -56,7 +56,7 @@ class UsersController extends Controller
     public function actionIndex()
     {
         if (!$this->isAdmin) {
-            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!.');
+            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!');
             return $this->redirect(['site/index']);
         }
 
@@ -78,7 +78,7 @@ class UsersController extends Controller
     public function actionView($id)
     {
         if (!$this->isAdmin) {
-            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!.');
+            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!');
             return $this->redirect(['site/index']);
         }
 
@@ -95,7 +95,7 @@ class UsersController extends Controller
     public function actionCreate()
     {
         if (!$this->isAdmin) {
-            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!.');
+            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!');
             return $this->redirect(['site/index']);
         }
 
@@ -124,7 +124,7 @@ class UsersController extends Controller
     public function actionUpdate($id)
     {
         if (!$this->isAdmin) {
-            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!.');
+            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!');
             return $this->redirect(['site/index']);
         }
 
@@ -149,7 +149,7 @@ class UsersController extends Controller
     public function actionDelete($id)
     {
         if (!$this->isAdmin) {
-            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!.');
+            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!');
             return $this->redirect(['site/index']);
         }
 
