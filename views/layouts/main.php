@@ -4,7 +4,6 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
-use app\models\Users;
 use app\widgets\Alert;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
@@ -50,7 +49,7 @@ Yii::$app->name = 'Comunidade Conectada';
             ['label' => 'Suporte', 'url' => ['/site/suporte']],
         ];
 
-        if (!Yii::$app->user->isGuest && Users::isAdmin(Yii::$app->user->id)) {
+        if (!Yii::$app->user->isGuest && Yii::$app->params['isAdmin']) {
             $items[] = ['label' => 'Painel Administrativo', 'url' => ['/site/painel-administrativo']];
         }
 
@@ -78,7 +77,7 @@ Yii::$app->name = 'Comunidade Conectada';
 
     <main id="main" class="flex-shrink-0" role="main">
         <div class="container">
-            <?php if (!empty($this->params['breadcrumbs'])) : ?>
+            <?php if (!empty($this->params['breadcrumbs'])): ?>
             <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
             <?php endif ?>
             <?= Alert::widget() ?>
