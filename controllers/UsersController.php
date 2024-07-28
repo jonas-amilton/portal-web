@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Users;
 use app\models\UsersSearch;
+use app\repositories\UserRepository;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -14,6 +15,21 @@ use yii\filters\VerbFilter;
  */
 class UsersController extends Controller
 {
+    private $userRepository;
+    protected $isAdmin;
+
+    public function __construct($id, $module, UserRepository $userRepository, $config = [])
+    {
+        $this->userRepository = $userRepository;
+
+        // Armazena globalmente se usuário logado é admin.
+        Yii::$app->params['isAdmin'] = $this->userRepository->isAdmin(Yii::$app->user->id);
+        // Seta no atributo o resultado do método isAdmin.
+        $this->isAdmin = Yii::$app->params['isAdmin'];
+
+        parent::__construct($id, $module, $config);
+    }
+
     /**
      * @inheritDoc
      */
@@ -39,6 +55,11 @@ class UsersController extends Controller
      */
     public function actionIndex()
     {
+        if (!$this->isAdmin) {
+            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!.');
+            return $this->redirect(['site/index']);
+        }
+
         $searchModel = new UsersSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -56,6 +77,11 @@ class UsersController extends Controller
      */
     public function actionView($id)
     {
+        if (!$this->isAdmin) {
+            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!.');
+            return $this->redirect(['site/index']);
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -68,6 +94,11 @@ class UsersController extends Controller
      */
     public function actionCreate()
     {
+        if (!$this->isAdmin) {
+            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!.');
+            return $this->redirect(['site/index']);
+        }
+
         $model = new Users();
 
         if ($this->request->isPost) {
@@ -92,6 +123,11 @@ class UsersController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (!$this->isAdmin) {
+            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!.');
+            return $this->redirect(['site/index']);
+        }
+
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -112,6 +148,11 @@ class UsersController extends Controller
      */
     public function actionDelete($id)
     {
+        if (!$this->isAdmin) {
+            Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar!.');
+            return $this->redirect(['site/index']);
+        }
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
