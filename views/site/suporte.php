@@ -2,7 +2,6 @@
 
 /** @var yii\web\View $this */
 
-use app\models\Users;
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
@@ -39,10 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($messages as $message) : ?>
+        <?php foreach ($messages as $message): ?>
         <tr>
             <td><?= Html::encode($message->id) ?></td>
-            <td><?= Html::encode(Users::getUsernameById($message->user_id)) ?></td>
+            <td><?= Html::encode($users[$message->user_id]->username ?? 'Usuário desconhecido') ?></td>
             <td><?= Html::encode($message->message) ?></td>
             <td><?= Html::encode($message->created_at) ?></td>
             <td><?= Html::encode($message->status) ?></td>
