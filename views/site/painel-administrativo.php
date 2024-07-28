@@ -4,6 +4,7 @@
 /** @var yii\bootstrap5\ActiveForm $form */
 
 use yii\bootstrap5\Html;
+use yii\helpers\Url;
 
 $this->title = 'Painel Administrativo';
 $this->params['breadcrumbs'][] = $this->title;
@@ -11,6 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-contact">
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <p><a href="<?= Url::to(['/users']) ?>">Gerenciar usuários</a></p>
+
+    <h2>Mensagens do suporte</h2>
     <table class="table table-striped">
         <thead>
             <tr>
