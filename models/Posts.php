@@ -12,6 +12,8 @@ use Yii;
  * @property string $title
  * @property string|null $content
  * @property string $publication_date
+ * @property array $postFiles
+ * @property object $user
  * 
  * @property Users $users
  */

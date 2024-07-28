@@ -2,14 +2,14 @@
 
 use yii\helpers\Html;
 
-/* @var $model app\models\Posts */
+/** @var app\models\Posts $model */
 
 ?>
 
 <div class="post-item card mb-3">
     <div class="row g-0">
         <div class="col-md-4">
-            <?php foreach ($model->postFiles as $file) : ?>
+            <?php foreach ($model->postFiles as $file): ?>
             <img src="<?= Yii::getAlias('@showImages/') . $file->filename; ?>" class="img-fluid rounded-start"
                 alt="<?= 'Imagem de ' . $model->title; ?>">
             <?php endforeach; ?>
@@ -21,7 +21,7 @@ use yii\helpers\Html;
                 <p class="card-text"><strong>Autor:</strong> <?= Html::encode($model->user->username) ?></p>
                 <p class="card-text"><small class="text-body-secondary">Publicado em
                         <?= Html::encode($model->publication_date) ?></small></p>
-                <?php if (Yii::$app->user->identity->id === $model->user_id) : ?>
+                <?php if (Yii::$app->user->identity->id === $model->user_id): ?>
                 <?= Html::a('Apagar Publicação', [
                         'site/delete',
                         'id' => $model->id,
