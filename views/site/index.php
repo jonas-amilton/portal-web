@@ -1,6 +1,7 @@
 <?php
-
 /** @var yii\web\View $this */
+/** @var app\models\Posts $modelPost */
+/** @var yii\widgets\ActiveForm $form */
 
 $this->title = 'Comunidade Conectada';
 

@@ -1,6 +1,7 @@
 <?php
 
 /** @var yii\web\View $this */
+/** @var app\models\SupportMessages $modelSuporte */
 
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;

@@ -3,9 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $modelSuporte app\models\SupportMessage */
-/* @var $form yii\widgets\ActiveForm */
+/** @var yii\web\View $this */
+/** @var app\models\SupportMessages $modelSuporte */
+/** @var yii\widgets\ActiveForm $form */
 
 $this->title = 'Atualizar Status: ' . $modelSuporte->id;
 $this->params['breadcrumbs'][] = ['label' => 'Mensagens de Suporte', 'url' => ['index']];
